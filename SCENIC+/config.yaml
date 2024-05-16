@@ -1,0 +1,98 @@
+input_data:
+  cisTopic_obj_fname: "/mnt/isilon/tan_lab/sussmanj/Temp/ETP_ALL/SCENICPlus/Data_SCENICplus/ATAC_cistopic_obj_with_model.pkl"
+  GEX_anndata_fname: "/mnt/isilon/tan_lab/sussmanj/Temp/ETP_ALL/SCENICPlus/Data_SCENICplus/TALL_BMP_TSpec_RNA.h5ad"
+  region_set_folder: "/mnt/isilon/tan_lab/sussmanj/Temp/ETP_ALL/SCENICPlus/Data_SCENICplus/region_sets"
+  ctx_db_fname: "/mnt/isilon/tan_lab/sussmanj/Temp/ETP_ALL/SCENICPlus/Database_Files/T_ALL.regions_vs_motifs.rankings.feather"
+  dem_db_fname: "/mnt/isilon/tan_lab/sussmanj/Temp/ETP_ALL/SCENICPlus/Database_Files/T_ALL.regions_vs_motifs.scores.feather"
+  path_to_motif_annotations: "/mnt/isilon/tan_lab/sussmanj/Single_Cell_Tools/ScenicPlus/Motif_Collection/v10nr_clust_public/snapshots/motifs-v10-nr.hgnc-m0.00001-o0.0.tbl"
+
+output_data:
+  # output for prepare_GEX_ACC .h5
+  combined_GEX_ACC_mudata: "/mnt/isilon/tan_lab/sussmanj/Temp/ETP_ALL/SCENICPlus/SCENICPlus_Pipeline/Output/ACC_GEX.h5mu"
+  # output for motif enrichment results .hdf5
+  dem_result_fname: "/mnt/isilon/tan_lab/sussmanj/Temp/ETP_ALL/SCENICPlus/SCENICPlus_Pipeline/Output/dem_results.hdf5"
+  ctx_result_fname: "/mnt/isilon/tan_lab/sussmanj/Temp/ETP_ALL/SCENICPlus/SCENICPlus_Pipeline/Output/ctx_results.hdf5"
+  # output html for motif enrichment results .html
+  output_fname_dem_html: "/mnt/isilon/tan_lab/sussmanj/Temp/ETP_ALL/SCENICPlus/SCENICPlus_Pipeline/Output/dem_results.html"
+  output_fname_ctx_html: "/mnt/isilon/tan_lab/sussmanj/Temp/ETP_ALL/SCENICPlus/SCENICPlus_Pipeline/Output/ctx_results.html"
+  # output for prepare_menr .h5ad
+  cistromes_direct: "/mnt/isilon/tan_lab/sussmanj/Temp/ETP_ALL/SCENICPlus/SCENICPlus_Pipeline/Output/cistromes_direct.h5ad"
+  cistromes_extended: "/mnt/isilon/tan_lab/sussmanj/Temp/ETP_ALL/SCENICPlus/SCENICPlus_Pipeline/Output/cistromes_extended.h5ad"
+  # output tf names .txt
+  tf_names: "/mnt/isilon/tan_lab/sussmanj/Temp/ETP_ALL/SCENICPlus/SCENICPlus_Pipeline/Output/tf_names.txt"
+  # output for download_genome_annotations .tsv
+  genome_annotation: "/mnt/isilon/tan_lab/sussmanj/Temp/ETP_ALL/SCENICPlus/SCENICPlus_Pipeline/Output/genome_annotation.tsv"
+  chromsizes: "/mnt/isilon/tan_lab/sussmanj/Temp/ETP_ALL/SCENICPlus/SCENICPlus_Pipeline/Output/chromsizes.tsv"
+  # output for search_space .tsb
+  search_space: "/mnt/isilon/tan_lab/sussmanj/Temp/ETP_ALL/SCENICPlus/SCENICPlus_Pipeline/Output/search_space.tsv"
+  # output tf_to_gene .tsv
+  tf_to_gene_adjacencies: "/mnt/isilon/tan_lab/sussmanj/Temp/ETP_ALL/SCENICPlus/SCENICPlus_Pipeline/Output/tf_to_gene_adj.tsv"
+  # output region_to_gene .tsv
+  region_to_gene_adjacencies: "/mnt/isilon/tan_lab/sussmanj/Temp/ETP_ALL/SCENICPlus/SCENICPlus_Pipeline/Output/region_to_gene_adj.tsv"
+  # output eGRN .tsv
+  eRegulons_direct: "/mnt/isilon/tan_lab/sussmanj/Temp/ETP_ALL/SCENICPlus/SCENICPlus_Pipeline/Output/eRegulon_direct.tsv"
+  eRegulons_extended: "/mnt/isilon/tan_lab/sussmanj/Temp/ETP_ALL/SCENICPlus/SCENICPlus_Pipeline/Output/eRegulons_extended.tsv"
+  # output AUCell .h5mu
+  AUCell_direct: "/mnt/isilon/tan_lab/sussmanj/Temp/ETP_ALL/SCENICPlus/SCENICPlus_Pipeline/Output/AUCell_direct.h5mu"
+  AUCell_extended: "/mnt/isilon/tan_lab/sussmanj/Temp/ETP_ALL/SCENICPlus/SCENICPlus_Pipeline/Output/AUCell_extended.h5mu"
+  # output scplus mudata .h5mu
+  scplus_mdata: "/mnt/isilon/tan_lab/sussmanj/Temp/ETP_ALL/SCENICPlus/SCENICPlus_Pipeline/Output/scplusmdata.h5mu"
+
+params_general:
+  temp_dir: "/mnt/isilon/tan_lab/sussmanj/Temp/ETP_ALL/SCENICPlus/SCENICPlus_Pipeline/Temporary"
+  n_cpu: 72
+  seed: 69420
+
+params_data_preparation:
+  # Params for prepare_GEX_ACC
+  bc_transform_func: "\"lambda x: f'{x}-nonmultiome'\""
+  is_multiome: False
+  key_to_group_by: "comparison.bmp.vs.t.specified"
+  nr_cells_per_metacells: 5
+  # Params for prepare_menr
+  direct_annotation: "Direct_annot"
+  extended_annotation: "Orthology_annot"
+  # Params for download_genome_annotations
+  species: "hsapiens"
+  biomart_host: "http://www.ensembl.org"
+  # Params for search_space
+  search_space_upstream: "0 500000"
+  search_space_downstream: "0 500000"
+  search_space_extend_tss: "10 10"
+
+params_motif_enrichment:
+  species: "homo_sapiens"
+  annotation_version: "v10nr_clust"
+  motif_similarity_fdr: 0.001
+  orthologous_identity_threshold: 0.0
+  annotations_to_use: "Direct_annot Orthology_annot"
+  fraction_overlap_w_dem_database: 0.4
+  dem_max_bg_regions: 500
+  dem_balance_number_of_promoters: True
+  dem_promoter_space: 1_000
+  dem_adj_pval_thr: 0.05
+  dem_log2fc_thr: 1.0
+  dem_mean_fg_thr: 0.0
+  dem_motif_hit_thr: 3.0
+  fraction_overlap_w_ctx_database: 0.4
+  ctx_auc_threshold: 0.005
+  ctx_nes_threshold: 3.0
+  ctx_rank_threshold: 0.05
+
+
+params_inference:
+  # Params for tf_to_gene
+  tf_to_gene_importance_method: "GBM"
+  # Params regions_to_gene
+  region_to_gene_importance_method: "GBM"
+  region_to_gene_correlation_method: "SR"
+  # Params for eGRN inference
+  order_regions_to_genes_by: "importance"
+  order_TFs_to_genes_by: "importance"
+  gsea_n_perm: 1000
+  quantile_thresholds_region_to_gene: "0.85 0.90 0.95"
+  top_n_regionTogenes_per_gene: "5 10 15"
+  top_n_regionTogenes_per_region: ""
+  min_regions_per_gene: 0
+  rho_threshold: 0.03
+  min_target_genes: 10
